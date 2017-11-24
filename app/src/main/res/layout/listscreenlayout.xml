@@ -9,11 +9,10 @@
     <Button
         android:id="@+id/TaskTitleButton"
         android:layout_width="272dp"
-        android:layout_height="52dp"
+        android:layout_height="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:fontFamily="sans-serif"
-        android:onClick="Completed"
         android:text="TaskView"
         android:textAlignment="textStart"
         android:textAllCaps="false"

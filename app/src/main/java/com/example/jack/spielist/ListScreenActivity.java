@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +55,7 @@ public class ListScreenActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setMax(listArray.size());
         progressBar.setProgress(progress);
+
     }
 
     public void Clear(View view)
@@ -75,12 +77,11 @@ public class ListScreenActivity extends AppCompatActivity {
 
     }
 
-    public void Completed(View view)
+
+
+    public void Completed(View view, Button btn)
     {
-            progress += 1;
-            progressBar.setProgress(progress);
-            Button Completed = findViewById(R.id.TaskTitleButton);
-            Completed.setTextColor(getApplication().getResources().getColor(R.color.grey));
+
 
             /* SPANNABLE STRIKETHROUGH
             TextView textView = (TextView)Completed.getText();
@@ -118,8 +119,17 @@ public class ListScreenActivity extends AppCompatActivity {
 
             view  = getLayoutInflater().inflate(R.layout.listscreenlayout, null);
             //view = customView;
-            Button textViewTask = view.findViewById(R.id.TaskTitleButton);
-
+            final Button textViewTask = view.findViewById(R.id.TaskTitleButton);
+            textViewTask.setId(i);
+            textViewTask.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    progress += 1;
+                    progressBar.setProgress(progress);
+                    textViewTask.setTextColor(getApplication().getResources().getColor(R.color.grey));
+                    textViewTask.setEnabled(false);
+                }
+            });
+            //buttonArray.add(textViewTask);
             textViewTask.setText(listArray.get(i));
 
             return view;
