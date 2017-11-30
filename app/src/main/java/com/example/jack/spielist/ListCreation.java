@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,9 +48,10 @@ public class ListCreation extends AppCompatActivity {
 
         //Initialising ListTasks
         list = findViewById(R.id.list);
-        listItems = new ArrayList<String>();
+        listItems = new ArrayList<>();
         customAdapter = new CustomAdapter();
         list.setAdapter(customAdapter);
+        savedListItems = new ArrayList<>();
 
     }
 
@@ -66,7 +68,7 @@ public class ListCreation extends AppCompatActivity {
     public void Okay (View view)
     {
         TextView Input = findViewById(R.id.InputTask);
-        if(!Input.getText().toString().equals(""))
+        if(!Input.getText().toString().equals("") && !listItems.contains(Input.getText().toString()))
         {
             if(findViewById(R.id.GetStarted).getVisibility() == View.INVISIBLE)
             {
@@ -94,6 +96,24 @@ public class ListCreation extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void Save(String param)
+    {
+        if(!savedListItems.contains(param))
+        {
+            savedListItems.add(param);
+        }
+    }
+
+    public void Delete(String param)
+    {
+        if(listItems.contains(param))
+        {
+            listItems.remove(param);
+            customAdapter.notifyDataSetChanged();
+
+        }
+    }
+
     class CustomAdapter extends BaseAdapter
     {
 
@@ -117,9 +137,33 @@ public class ListCreation extends AppCompatActivity {
 
             view  = getLayoutInflater().inflate(R.layout.customlayout, null);
             //view = customView;
-            TextView textViewTask = (TextView)view.findViewById(R.id.taskTitle);
-
+            final TextView textViewTask = view.findViewById(R.id.taskTitle);
             textViewTask.setText(listItems.get(i));
+
+            //Create Save onclick listener
+            final Button saveButtonViewTask = view.findViewById(R.id.Save);
+            saveButtonViewTask.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    String savedTaskString = textViewTask.getText().toString();
+                    Save(savedTaskString);
+                    saveButtonViewTask.setEnabled(false);
+                }
+            });
+            //Create Delete onclick listener
+            final Button deleteButtonViewTask = view.findViewById(R.id.Delete);
+            deleteButtonViewTask.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    String savedTaskString = textViewTask.getText().toString();
+                    Delete(savedTaskString);
+                    if(savedListItems.contains(savedTaskString))
+                    {
+                        saveButtonViewTask.setEnabled(false);
+                    }
+
+                }
+            });
+
+
 
             return view;
         }
