@@ -21,11 +21,12 @@
         </activity>
         <activity android:name=".ListScreenActivity">
             android:parentActivityName=".ListCreation" >
-            <!--The meta-data tag is required if you support API level 15 and lower -->
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListCreation" />
         </activity>
+        <activity android:name=".SavedTasks"></activity>
     </application>
 
 </manifest>

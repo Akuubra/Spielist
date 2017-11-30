@@ -4,24 +4,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/completed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="TODO"
-        android:elevation="0dp"
-
-        android:padding="8dp"
-        app:srcCompat="@android:drawable/btn_star" />
-
     <TextView
         android:id="@+id/taskTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/completed"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:elevation="2dp"
@@ -29,5 +15,23 @@
         android:paddingTop="0dp"
         android:text="TextView"
         android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Delete" />
+
+    <Button
+        android:id="@+id/Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/Delete"
+        android:layout_toStartOf="@+id/Delete"
+        android:text="Save" />
 
 </RelativeLayout>

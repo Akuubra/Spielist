@@ -41,7 +41,7 @@ public class ListScreenActivity extends AppCompatActivity {
 
         //Get Intent
         Intent intent = getIntent();
-        listArray = (ArrayList<String>) intent.getSerializableExtra("key");
+        listArray = (ArrayList<String>) intent.getSerializableExtra("GetStartedKey");
 
         customAdapter = new CustomAdapter();
 

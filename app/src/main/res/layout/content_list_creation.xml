@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.jack.spielist.ListCreation"
-    tools:showIn="@layout/activity_list_creation">
+    tools:showIn="@layout/activity_list_creation"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true" >
 
     <AutoCompleteTextView
         android:id="@+id/InputTask"
@@ -18,19 +20,17 @@
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Enter a task to get started!"/>
 
     <Button
         android:id="@+id/Cancel"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="124dp"
         android:onClick="Clear"
         android:text="@android:string/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,28 +38,11 @@
         android:id="@+id/Ok"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="68dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginTop="124dp"
         android:onClick="Okay"
         android:text="@android:string/VideoView_error_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="316dp"
-        android:layout_height="34dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="188dp"
-        android:text="@string/Start"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -75,7 +58,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.389"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp" />
 
     <ListView
         android:id="@+id/list"
@@ -101,6 +86,21 @@
         android:layout_marginTop="552dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_help" />
+        app:srcCompat="@android:drawable/ic_menu_help"
+        android:layout_marginRight="8dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="274dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="176dp"
+        android:onClick="SavedTasks"
+        android:text="Saved Tasks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

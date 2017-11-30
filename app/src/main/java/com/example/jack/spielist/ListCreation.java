@@ -2,9 +2,6 @@ package com.example.jack.spielist;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,17 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListCreation extends AppCompatActivity {
 
@@ -32,6 +23,7 @@ public class ListCreation extends AppCompatActivity {
     public static String[] Country = new String[]{"USA", "India", "Belgium", "France", "China", "Australia"};
 
     private ArrayList<String> listItems;
+    private ArrayList<String> savedListItems;
     private CustomAdapter customAdapter;
     private ListView list;
     //private String[] arrayItems;
@@ -67,7 +59,7 @@ public class ListCreation extends AppCompatActivity {
 
     public void Clear(View view)
     {
-        EditText Input = (EditText) findViewById(R.id.InputTask);
+        EditText Input = findViewById(R.id.InputTask);
         Input.setText("");
     }
 
@@ -90,11 +82,17 @@ public class ListCreation extends AppCompatActivity {
     {
         Intent intent = new Intent(this, ListScreenActivity.class);
         ArrayList<String> listString = listItems;
-        intent.putExtra("key", listString);
+        intent.putExtra("GetStartedKey", listString);
         startActivity(intent);
     }
 
-
+    public void SavedTasks(View view)
+    {
+        Intent intent = new Intent(this, SavedTasks.class);
+        ArrayList<String> listString = savedListItems;
+        intent.putExtra("SavedTasksKey", listString);
+        startActivity(intent);
+    }
 
     class CustomAdapter extends BaseAdapter
     {
