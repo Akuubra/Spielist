@@ -34,7 +34,7 @@ public class ListCreation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_creation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("What do you need to do today?");
@@ -42,7 +42,7 @@ public class ListCreation extends AppCompatActivity {
         toolbar.setSubtitle("");
 
         //Input AutoComplete List
-        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.InputTask);
+        AutoCompleteTextView autoCompleteTextView = findViewById(R.id.InputTask);
         ArrayAdapter<String> inputAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, Country);
         autoCompleteTextView.setAdapter(inputAdapter);
 
