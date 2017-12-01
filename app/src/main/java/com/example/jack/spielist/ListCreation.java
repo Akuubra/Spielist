@@ -1,9 +1,11 @@
 package com.example.jack.spielist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,17 +18,32 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ListCreation extends AppCompatActivity {
 
 
     public static String[] Country = new String[]{"USA", "India", "Belgium", "France", "China", "Australia"};
-
+    private Context context = this;
     private ArrayList<String> listItems;
     private ArrayList<String> savedListItems;
     private CustomAdapter customAdapter;
     private ListView list;
+    private String filename = "SavedTasksFile";
+    private File saveFile = null;
+    private BufferedReader reader;
+    private TextView textView;
+    private int length1;
     //private String[] arrayItems;
     //private View customView  = getLayoutInflater().inflate(R.layout.customlayout, null);
 
@@ -53,6 +70,131 @@ public class ListCreation extends AppCompatActivity {
         list.setAdapter(customAdapter);
         savedListItems = new ArrayList<>();
 
+        textView = findViewById(R.id.SaveFileLength);
+        length1 = savedListItems.size();
+
+
+        textView.setText(Integer.toString(length1));
+
+        saveFile = new File(context.getFilesDir(), filename);
+
+        Scanner s = null;
+        //readFile(context, filename);
+        try {
+            s = new Scanner(new File(context.getFilesDir(), filename));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while(s.hasNextLine())
+        {
+            savedListItems.add(s.nextLine());
+        }
+        s.close();
+
+        //\\==============================================//\\
+       //Try Reading
+        //Try opening input
+
+       /* FileInputStream in = null;
+        try {
+            in = new FileInputStream(saveFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        reader = new BufferedReader(new InputStreamReader(in));
+        String line = "";
+        try {
+            line = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        while(line != null)
+        {
+            if(!savedListItems.contains(line))
+            {
+                savedListItems.add(line);
+            }
+            try {
+                Log.d("StackOverflow", line);
+                line = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        /*
+        //Try Reading
+        try {
+            in.read(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //Try closing
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        String contents = new String(bytes);
+        if(!savedListItems.contains(contents))
+        {
+            savedListItems.add(contents);
+        }
+        */
+        //\\==============================================//\\
+
+    }
+
+    public void readFile(Context context, String filename)
+    {
+        try {
+            FileInputStream fis = context.openFileInput(filename);
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            //StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                savedListItems.add(line);//.add("\n");
+            }
+            //return sb.toString();
+        } catch (FileNotFoundException e) {
+            //return "";
+        } catch (UnsupportedEncodingException e) {
+            //return "";
+        } catch (IOException e) {
+            //return "";
+        }
+    }
+
+    public void SaveToPhone(String param)
+    {
+        //Initialise file to save
+
+        FileOutputStream stream = null;
+        OutputStreamWriter myOutWriter = null;
+        //Try opening the file
+        try {
+            stream = new FileOutputStream(saveFile);
+            myOutWriter = new OutputStreamWriter(stream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        //Try writing
+        try {
+            myOutWriter.append(param);
+            //myOutWriter.append("\n\r");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //Try closing
+            try {
+                myOutWriter.close();
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -96,11 +238,10 @@ public class ListCreation extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void Save(String param)
-    {
-        if(!savedListItems.contains(param))
-        {
+    public void Save(String param) throws IOException {
+        if(!savedListItems.contains(param)) {
             savedListItems.add(param);
+            SaveToPhone(param);
         }
     }
 
@@ -145,7 +286,11 @@ public class ListCreation extends AppCompatActivity {
             saveButtonViewTask.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     String savedTaskString = textViewTask.getText().toString();
-                    Save(savedTaskString);
+                    try {
+                        Save(savedTaskString);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     saveButtonViewTask.setEnabled(false);
                 }
             });
