@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,12 +17,15 @@ public class SavedTasks extends AppCompatActivity {
     private ArrayList<String> listArray;
     private CustomAdapter customAdapter;
     private ListView listView;
+    private ArrayList<CheckBox> checkBoxes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.save_task_screen);
+
+        checkBoxes = null;
 
         //Get Intent
         Intent intent = getIntent();
@@ -35,6 +39,16 @@ public class SavedTasks extends AppCompatActivity {
 
     }
 
+    public void Delete(View view)
+    {
+        for(int i = 0; i < checkBoxes.size(); i++)
+        {
+            if(checkBoxes.get(i).isActivated())
+            {
+                checkBoxes.remove(i);
+            }
+        }
+    }
 
     class CustomAdapter extends BaseAdapter
     {
@@ -60,7 +74,8 @@ public class SavedTasks extends AppCompatActivity {
             view  = getLayoutInflater().inflate(R.layout.save_task_layout, null);
             //view = customView;
             TextView textViewTask = view.findViewById(R.id.saveTaskTitle);
-
+            //CheckBox checkBox = view.findViewById(R.id.checkBox2);
+            //checkBoxes.add(checkBox);
             textViewTask.setText(listArray.get(i));
 
             return view;

@@ -25,6 +25,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -78,7 +82,20 @@ public class ListCreation extends AppCompatActivity {
 
         saveFile = new File(context.getFilesDir(), filename);
 
-        Scanner s = null;
+
+        FileInputStream file = null;
+        ObjectInput in = null;
+        try{
+            file = new FileInputStream(saveFile);
+            in = new ObjectInputStream(file);
+            savedListItems = (ArrayList<String>) in.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        /*Scanner s = null;
         //readFile(context, filename);
         try {
             s = new Scanner(new File(context.getFilesDir(), filename));
@@ -89,7 +106,7 @@ public class ListCreation extends AppCompatActivity {
         {
             savedListItems.add(s.nextLine());
         }
-        s.close();
+        s.close();*/
 
         //\\==============================================//\\
        //Try Reading
@@ -241,7 +258,35 @@ public class ListCreation extends AppCompatActivity {
     public void Save(String param) throws IOException {
         if(!savedListItems.contains(param)) {
             savedListItems.add(param);
-            SaveToPhone(param);
+
+            FileOutputStream stream = null;
+            //OutputStreamWriter myOutWriter = null;
+            ObjectOutput out = null;
+            //Try opening the file
+            try {
+                stream = new FileOutputStream(saveFile);
+                out = new ObjectOutputStream(stream);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            //Try writing
+            try {
+                out.writeObject(savedListItems);
+                //myOutWriter.append("\n\r");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                //Try closing
+                try {
+                    //myOutWriter.close();
+                    //stream.close();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //SaveToPhone(param);
         }
     }
 
