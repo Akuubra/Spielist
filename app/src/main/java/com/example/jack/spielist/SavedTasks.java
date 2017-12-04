@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SavedTasks extends AppCompatActivity {
@@ -17,7 +18,7 @@ public class SavedTasks extends AppCompatActivity {
     private ArrayList<String> listArray;
     private CustomAdapter customAdapter;
     private ListView listView;
-    private ArrayList<CheckBox> checkBoxes;
+    private ArrayList<String> tasksToDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +26,13 @@ public class SavedTasks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.save_task_screen);
 
-        checkBoxes = null;
+
 
         //Get Intent
         Intent intent = getIntent();
         listArray = (ArrayList<String>) intent.getSerializableExtra("SavedTasksKey");
-
+        //checkBoxes = new CheckBox[listArray.size()];
+        tasksToDelete = new ArrayList<>();
         customAdapter = new CustomAdapter();
 
         //Get View
@@ -41,12 +43,11 @@ public class SavedTasks extends AppCompatActivity {
 
     public void Delete(View view)
     {
-        for(int i = 0; i < checkBoxes.size(); i++)
+        for(int i = 0; i < tasksToDelete.size(); i++)
         {
-            if(checkBoxes.get(i).isActivated())
-            {
-                checkBoxes.remove(i);
-            }
+            ListCreation.deleteFromFile(tasksToDelete.get(i));
+            listArray.remove(tasksToDelete.get(i));
+            customAdapter.notifyDataSetChanged();
         }
     }
 
@@ -73,9 +74,27 @@ public class SavedTasks extends AppCompatActivity {
 
             view  = getLayoutInflater().inflate(R.layout.save_task_layout, null);
             //view = customView;
-            TextView textViewTask = view.findViewById(R.id.saveTaskTitle);
-            //CheckBox checkBox = view.findViewById(R.id.checkBox2);
-            //checkBoxes.add(checkBox);
+            final TextView textViewTask = view.findViewById(R.id.saveTaskTitle);
+            final CheckBox checkBox = view.findViewById(R.id.checkBox2);
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    if(((CheckBox) view).isChecked())
+                    {
+                        tasksToDelete.add(textViewTask.getText().toString());
+                    }
+                    else
+                    {
+                        tasksToDelete.remove(textViewTask.getText().toString());
+                    }
+                    /*try {
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }*/
+
+                }
+            });
+            //checkBoxes[i] = checkBox;
             textViewTask.setText(listArray.get(i));
 
             return view;

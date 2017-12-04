@@ -32,7 +32,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public class ListCreation extends AppCompatActivity {
 
@@ -40,14 +40,14 @@ public class ListCreation extends AppCompatActivity {
     public static String[] Country = new String[]{"USA", "India", "Belgium", "France", "China", "Australia"};
     private Context context = this;
     private ArrayList<String> listItems;
-    private ArrayList<String> savedListItems;
     private CustomAdapter customAdapter;
     private ListView list;
     private String filename = "SavedTasksFile";
-    private File saveFile = null;
+    private static File saveFile = null;
     private BufferedReader reader;
     private TextView textView;
     private int length1;
+    private static ArrayList<String> savedListItems;
     //private String[] arrayItems;
     //private View customView  = getLayoutInflater().inflate(R.layout.customlayout, null);
 
@@ -83,8 +83,8 @@ public class ListCreation extends AppCompatActivity {
         saveFile = new File(context.getFilesDir(), filename);
 
 
-        FileInputStream file = null;
-        ObjectInput in = null;
+        FileInputStream file ;
+        ObjectInput in;
         try{
             file = new FileInputStream(saveFile);
             in = new ObjectInputStream(file);
@@ -162,6 +162,30 @@ public class ListCreation extends AppCompatActivity {
         //\\==============================================//\\
 
     }
+
+    public static void deleteFromFile(String item) throws IOException {
+        savedListItems.remove(item);
+        /*ArrayList<String> tempDelete = new ArrayList<>();
+        FileInputStream file ;
+        ObjectInput in;
+        try{
+            file = new FileInputStream(saveFile);
+            in = new ObjectInputStream(file);
+            tempDelete = (ArrayList<String>) in.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if(tempDelete.contains(item))
+        {
+            tempDelete.remove(item);
+        }
+        for
+        Save(item);*/
+    }
+
 
     public void readFile(Context context, String filename)
     {
@@ -255,11 +279,11 @@ public class ListCreation extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void Save(String param) throws IOException {
+    public static void Save(String param) throws IOException {
         if(!savedListItems.contains(param)) {
             savedListItems.add(param);
 
-            FileOutputStream stream = null;
+            FileOutputStream stream;
             //OutputStreamWriter myOutWriter = null;
             ObjectOutput out = null;
             //Try opening the file
