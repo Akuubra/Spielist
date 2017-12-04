@@ -41,13 +41,14 @@ public class SavedTasks extends AppCompatActivity {
 
     }
 
-    public void Delete(View view)
-    {
+    public void Delete(View view) throws IOException {
         for(int i = 0; i < tasksToDelete.size(); i++)
         {
             ListCreation.deleteFromFile(tasksToDelete.get(i));
             listArray.remove(tasksToDelete.get(i));
             customAdapter.notifyDataSetChanged();
+            //ListCreation.removeLine();
+            //tasksToDelete
         }
     }
 

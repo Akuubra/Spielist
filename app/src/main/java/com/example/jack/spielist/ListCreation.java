@@ -19,10 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInput;
@@ -32,6 +34,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class ListCreation extends AppCompatActivity {
@@ -44,10 +49,10 @@ public class ListCreation extends AppCompatActivity {
     private ListView list;
     private String filename = "SavedTasksFile";
     private static File saveFile = null;
-    private BufferedReader reader;
+    //private BufferedReader reader;
     private TextView textView;
     private int length1;
-    private static ArrayList<String> savedListItems;
+    public static ArrayList<String> savedListItems;
     //private String[] arrayItems;
     //private View customView  = getLayoutInflater().inflate(R.layout.customlayout, null);
 
@@ -80,8 +85,8 @@ public class ListCreation extends AppCompatActivity {
 
         textView.setText(Integer.toString(length1));
 
+        //saveFile.delete();
         saveFile = new File(context.getFilesDir(), filename);
-
 
         FileInputStream file ;
         ObjectInput in;
@@ -94,6 +99,7 @@ public class ListCreation extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
 
         /*Scanner s = null;
         //readFile(context, filename);
@@ -163,8 +169,25 @@ public class ListCreation extends AppCompatActivity {
 
     }
 
+    public static void removeLine(final File file, final int lineIndex) throws IOException{
+        final List<String> lines = new LinkedList<>();
+        final Scanner reader = new Scanner(new FileInputStream(file), "UTF-8");
+        while(reader.hasNextLine())
+            lines.add(reader.nextLine());
+        reader.close();
+        assert lineIndex >= 0 && lineIndex <= lines.size() - 1;
+        lines.remove(lineIndex);
+        final BufferedWriter writer = new BufferedWriter(new FileWriter(file, false));
+        for(final String line : lines)
+            writer.write(line);
+        writer.flush();
+        writer.close();
+    }
+
     public static void deleteFromFile(String item) throws IOException {
+        removeLine(saveFile, 0);//savedListItems.indexOf(item)
         savedListItems.remove(item);
+
         /*ArrayList<String> tempDelete = new ArrayList<>();
         FileInputStream file ;
         ObjectInput in;
