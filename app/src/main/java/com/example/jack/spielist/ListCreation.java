@@ -49,6 +49,7 @@ public class ListCreation extends AppCompatActivity {
     private ListView list;
     private String filename = "SavedTasksFile";
     private static File saveFile = null;
+    private static ArrayList<String> tempString;
     //private BufferedReader reader;
     private TextView textView;
     private int length1;
@@ -170,7 +171,49 @@ public class ListCreation extends AppCompatActivity {
     }
 
     public static void removeLine(final File file, final int lineIndex) throws IOException{
-        final List<String> lines = new LinkedList<>();
+
+        FileInputStream fileStream = new FileInputStream(file);
+        ObjectInput in;
+        try{
+            in = new ObjectInputStream(fileStream);
+            tempString = (ArrayList<String>) in.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        assert lineIndex >= 0 && lineIndex <= tempString.size() - 1;
+        tempString.remove(lineIndex);
+
+        FileOutputStream stream;
+        //OutputStreamWriter myOutWriter = null;
+        ObjectOutput out = null;
+        //Try opening the file
+        try {
+            stream = new FileOutputStream(saveFile);
+            out = new ObjectOutputStream(stream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        //Try writing
+        try {
+            out.writeObject(tempString);
+            //myOutWriter.append("\n\r");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //Try closing
+            try {
+                //myOutWriter.close();
+                //stream.close();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /*final List<String> lines = new LinkedList<>();
         final Scanner reader = new Scanner(new FileInputStream(file), "UTF-8");
         while(reader.hasNextLine())
             lines.add(reader.nextLine());
@@ -181,12 +224,17 @@ public class ListCreation extends AppCompatActivity {
         for(final String line : lines)
             writer.write(line);
         writer.flush();
-        writer.close();
+        writer.close();*/
+
     }
 
     public static void deleteFromFile(String item) throws IOException {
-        removeLine(saveFile, 0);//savedListItems.indexOf(item)
-        savedListItems.remove(item);
+
+        if(savedListItems.contains(item))
+        {
+            removeLine(saveFile, savedListItems.indexOf(item));//savedListItems.indexOf(item)
+            savedListItems.remove(item);
+        }
 
         /*ArrayList<String> tempDelete = new ArrayList<>();
         FileInputStream file ;
