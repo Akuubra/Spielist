@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -33,6 +34,9 @@ public class ListScreenActivity extends AppCompatActivity {
     private Intent intentToLeave;
     private ProgressBar progressBar;
     private int progress = 0;
+    private ArrayList<Button> buttonList = new ArrayList<>();
+    private ArrayList<String> descriptionList = new ArrayList<>();
+    private EditText taskDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,13 @@ public class ListScreenActivity extends AppCompatActivity {
         progressBar.setMax(listArray.size());
         progressBar.setProgress(progress);
 
+        taskDescription = findViewById(R.id.taskDescription);
+
+        for(int i = 0; i < listArray.size(); i++)
+        {
+            descriptionList.add("");
+        }
+
     }
 
     public void Clear(View view)
@@ -77,7 +88,16 @@ public class ListScreenActivity extends AppCompatActivity {
 
     }
 
+    public void setDescription(View view, int index)
+    {
+        descriptionList.set(index, taskDescription.getText().toString());
+    }
 
+    public String getDescription(View view, int index)
+    {
+        taskDescription.setText(descriptionList.get(index));
+        return descriptionList.get(index);
+    }
 
     public void Completed(View view, Button btn)
     {
@@ -121,12 +141,42 @@ public class ListScreenActivity extends AppCompatActivity {
             //view = customView;
             final Button textViewTask = view.findViewById(R.id.TaskTitleButton);
             textViewTask.setId(i);
+            buttonList.add(textViewTask);
+
             textViewTask.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    progress += 1;
-                    progressBar.setProgress(progress);
+                    //progress += 1;
+                    //progressBar.setProgress(progress);
                     textViewTask.setTextColor(getApplication().getResources().getColor(R.color.grey));
+
+                    for(int i = 0; i < buttonList.size(); i++)
+                    {
+
+                        if(!buttonList.get(i).isEnabled())
+                        {
+                            setDescription(view, i);
+                        }
+                    }
+                    for(int i = 0; i < buttonList.size(); i++)
+                    {
+
+                        if(buttonList.get(i).equals(textViewTask))
+                        {
+                            getDescription(view, i);
+                        }
+                        else
+                        {
+                            buttonList.get(i).setTextColor(getApplication().getResources().getColor(R.color.black));
+                            buttonList.get(i).setEnabled(true);
+
+                        }
+                    }
+
+
                     textViewTask.setEnabled(false);
+                    //textDescription.
+                    //
+                    // customAdapter.notifyDataSetChanged();
                 }
             });
             //buttonArray.add(textViewTask);

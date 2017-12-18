@@ -26,7 +26,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListCreation" />
         </activity>
-        <activity android:name=".SavedTasks"></activity>
+        <activity android:name=".SavedTasks" />
+        <activity
+            android:name=".AchievementScreen"
+            android:label="@string/title_activity_achievement_screen"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
