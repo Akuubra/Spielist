@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,9 @@ public class ListScreenActivity extends AppCompatActivity {
     private int progress = 0;
     private ArrayList<Button> buttonList = new ArrayList<>();
     private ArrayList<String> descriptionList = new ArrayList<>();
+    private ArrayList<Boolean> completedList = new ArrayList<>();
     private EditText taskDescription;
+    private ToggleButton toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,50 @@ public class ListScreenActivity extends AppCompatActivity {
             descriptionList.add("");
         }
 
+        toggle = findViewById(R.id.taskToggleButton);
+        toggle.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view) {
+                for(int i = 0; i < buttonList.size(); i++)
+                {
+                    if(!buttonList.get(i).isEnabled())
+                    {
+
+                        if(!toggle.isChecked())
+                        {
+                            progress += 1;
+                            progressBar.setProgress(progress);
+                            toggle.setEnabled(false);
+                            //completedList.set(i, true);
+                        }
+                    }
+
+                }
+
+            }
+
+        });
+
     }
+
+    public void Stopwatch(View view) {
+        String timerName = "";
+        for (int i = 0; i < buttonList.size(); i++)
+        {
+            if (!buttonList.get(i).isEnabled())
+            {
+                timerName = buttonList.get(i).getText().toString();
+            }
+        }
+
+        Timer(view);
+    }
+
+    public void Timer(View view)
+    {
+
+    }
+
 
     public void Clear(View view)
     {
@@ -148,7 +194,7 @@ public class ListScreenActivity extends AppCompatActivity {
                     //progress += 1;
                     //progressBar.setProgress(progress);
                     textViewTask.setTextColor(getApplication().getResources().getColor(R.color.grey));
-
+                    toggle.setEnabled(true);
                     for(int i = 0; i < buttonList.size(); i++)
                     {
 

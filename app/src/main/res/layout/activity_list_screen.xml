@@ -94,6 +94,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="84dp"
+        android:onClick="Stopwatch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,6 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="88dp"
         android:layout_marginTop="84dp"
+        android:onClick="Timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_recent_history" />
